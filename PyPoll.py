@@ -22,6 +22,8 @@ candidate_votes = {}
 #contains total votes
 total_votes = 0
 
+candidate_results = []
+
 # Winning Candidate and Winning Count Tracker
 winning_candidate = ""
 winning_count = 0
@@ -35,7 +37,7 @@ with open(file_to_load) as election_data:
 
     # Print the header row.
     headers = next(file_reader)
-    print(str(headers) + "\n")
+    #print(str(headers) + "\n")
 
     # Print each row in the CSV file.
     for row in file_reader:
@@ -62,7 +64,7 @@ with open(file_to_load) as election_data:
 
         vote_percentage = float(votes)/float(total_votes) * 100
 
-        print(candidate + " " + str(format(vote_percentage, '.1f')) + "% (" + str(votes) + ")\n")
+        candidate_results.append(str(candidate + " " + str(format(vote_percentage, '.1f')) + "% (" + str(votes) + ")\n"))
          
         # Determine winning vote count and candidate
         # 1. Determine if the votes are greater than the winning count.
@@ -76,21 +78,28 @@ with open(file_to_load) as election_data:
             # 3. Set the winning_candidate equal to the candidate's name.
             winning_candidate = candidate
 
-
-    print("-------------------------------\n")
-    print("Winner: " +  str(winning_candidate) + "\n")
-    print("Winning Vote Count: " +  str(winning_count) + "\n")
-    print("Winning Percentage: " +  str(winning_percentage) + "\n")
-    print("-------------------------------\n")
-        
-
-
 # Using the with statement open the file as a text file.
 with open(file_to_save, "w") as txt_file:
 
-     txt_file.write("Countries in the Election\n")
+     txt_file.write("Election Results\n")
 
-     txt_file.write("-------------------------\n")
+     txt_file.write("-------------------------------\n")
 
-     # Write three counties to the file.
-     txt_file.write("Arapahoe\nDenver\nJefferson")
+     txt_file.write("Total Votes: " + str(total_votes) + "\n")
+
+
+     txt_file.write("-------------------------------\n")
+
+     for result in candidate_results:
+     
+        txt_file.write(result)
+
+     txt_file.write("-------------------------------\n")
+
+     txt_file.write("Winner: " +  str(winning_candidate) + "\n")
+     txt_file.write("Winning Vote Count: " +  str(winning_count) + "\n")
+     txt_file.write("Winning Percentage: " +  str(winning_percentage) + "\n")
+     txt_file.write("-------------------------------\n")
+
+
+
